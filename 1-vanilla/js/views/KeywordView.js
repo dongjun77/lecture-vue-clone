@@ -13,6 +13,7 @@ KeywordView.render = function(data = []) {
     this.el.innerHTML = data.length ? this.getKeywordsHtml(data) : '추천 검색어가 없습니다' //있을경우 getKeywordHtml(data) 함수로 데이터를 받아온다
     this.bindClickEvent()
     this.show()
+    return this
 }
 
 KeywordView.getKeywordsHtml = function(data){
