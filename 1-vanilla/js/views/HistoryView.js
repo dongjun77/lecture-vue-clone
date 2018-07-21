@@ -1,0 +1,18 @@
+import KeywordView from './KeywordView.js'
+
+const tag = '[HistoryView]'
+
+const HistoryView = Object.create(KeywordView)
+
+HistoryView.getKeywordsHtml = function(data){
+    return data.reduce((html, item) => {
+        html += `<li data-keyword="${item.keyword}">
+            ${item.keyword}
+            <span class="date">${item.date}</span>
+            <button class="btn-remove"></button>
+        </li>`
+        return html
+    }, '<ul class="list">') + '</ul>' // 초기값 list
+}
+
+export default HistoryView
