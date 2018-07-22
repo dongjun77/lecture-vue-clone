@@ -28,8 +28,16 @@ export default {
 
     ResultView.setup(document.querySelector('#search-result'))
 
-    this.selectedTab = '최근 검색어'
+    this.selectedTab = '추천 검색어'
     this.renderView()
+  },
+  
+  search(query) {
+    FormView.setValue(query) // 검색한 이력 세팅
+    HistoryModel.add(query)
+    SearchModel.list(query).then(data => {
+      this.onSearchResult(data)
+    })
   },
 
   renderView() {
@@ -38,8 +46,10 @@ export default {
 
     if(this.selectedTab === '추천 검색어'){
       this.fetchSearchKeyword()
+      HistoryView.hide()
     } else {
       this.fetchSearchHistory()
+      KeywordView.hide()
     }
     
     ResultView.hide()
@@ -64,23 +74,19 @@ export default {
 
   onResetForm() {
     console.log(tag, 'onResetForm()')
-    ResultView.hide()
-  },
-
-  search(query) {
-    SearchModel.list(query).then(data => {
-      this.onSearchResult(data)
-    })
+    this.renderView()
   },
 
   onSearchResult(data) {
     TabView.hide()
     KeywordView.hide()
+    HistoryView.hide()
     ResultView.render(data)
   },
 
   onChangeTab(tabName) {
-    debugger
+    this.selectedTab = tabName
+    this.renderView()
   },
 
   onClickKeyword(keyword) {
