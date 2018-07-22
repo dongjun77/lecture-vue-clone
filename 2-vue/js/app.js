@@ -4,7 +4,12 @@ new Vue({
     data: {
         query: '',
         submitted: false,
+        tabs: ['추천 검색어','최근 검색어'],
+        selectedTab: '',
         searchResult: []
+    },
+    created() {
+        this.selectedTab = this.tabs[0]
     },
     methods: {
         onSubmit(e) {
@@ -16,6 +21,9 @@ new Vue({
         onReset(e) {
             this.resetForm()
         },
+        onClickTab(tab) {
+            this.selectedTab = tab
+        },
         search() {
             SearchModel.list().then(data => {
                 this.submitted = true
@@ -24,7 +32,8 @@ new Vue({
         },
         resetForm() {
             this.query = ''//여기서 this는 Vue 의 query를 ''로 만들어준다
-            debugger
+            this.submitted = false
+            this.searchResult = []
         }
     }
 })
